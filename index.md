@@ -1,0 +1,81 @@
+---
+title       : Predict Car Mileage Web App
+subtitle    : Feb 16, 2015
+author      : Kanthimathi Gayatri Sukumar
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Problem Statement
+
+With raising gasoline costs and the call to conserve natural resources (in this case fossil fuel), it becomes very important to choose and use fuel efficient cars that provide a high mileage. 
+
+In order to help users determine (predict) the mileage, for informed decision making, we have created a Web App that is capable of predicting the mileage given the cars number of cylinders, displacement, horsepower and weight with 83.27% variance explained.
+
+The Web App is at https://g3murari.shinyapps.io/PredictMileage/
+
+The Web App restricts the input values to the range that has been used for modelling.
+
+--------------------------------------------------------------------------------
+
+## Methods
+
+The methods used for the prediction of mileage are - 
+
+1. <b>Data Collection:</b> The dataset used for the prediction is the <b>mtcars</b> dataset available in R. As per R documentation, the data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973-74 models).
+
+2. <b>Exploratory Analysis:</b> Exploration of the data was performed using R, looking for covariance, zero variance and spread of the data.
+
+3. <b> Statistical Modelling:</b> Parametric models like linear regression and non-parametric models like CART, Random Forest and Boosting were used. The model that has been able to explain variance the highest has been Random Forest with 83.27% variance explained.
+
+--------------------------------------------------------------------------------
+
+## Results
+
+
+
+Below is the modelling for mileage on mtcars dataset using Random Forest algorithm with 3 fold cross validation. The results shows the 83.27% variance explained with an MSE of 5.48.
+
+
+```r
+fitControl = trainControl (method = "cv", number = 3)
+rfFit = train (mpg ~ cyl + disp + hp + wt, data = mtcars, method = "rf", trControl = fitControl)
+rfFit$finalModel
+```
+
+```
+## 
+## Call:
+##  randomForest(x = x, y = y, mtry = param$mtry) 
+##                Type of random forest: regression
+##                      Number of trees: 500
+## No. of variables tried at each split: 4
+## 
+##           Mean of squared residuals: 5.885628
+##                     % Var explained: 83.27
+```
+
+
+--------------------------------------------------------------------------------
+
+## Conclusion
+
+The plot of the Random Forest Fit R-squared shows high predictability and hence the Web App should be able to predict the mileage very close to the actual value.
+
+![plot of chunk plotModel](assets/fig/plotModel-1.png) 
+
+
+--------------------------------------------------------------------------------
+
+## References
+
+Dataset Reference: http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
+
+Course Reference: https://class.coursera.org/devdataprod-011
+
+
